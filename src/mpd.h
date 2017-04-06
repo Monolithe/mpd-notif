@@ -1,3 +1,6 @@
+#ifndef MPD_H
+#define MPD_H
+
 #include <mpd/client.h>
 #include <mpd/connection.h>
 #include <mpd/status.h>
@@ -12,8 +15,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "mpd.h"
+#define TEMPIP "127.0.0.1"
+#define TEMPPORT 6600
 
-int main(int argc, char *argv[]) {
-    return mainMpdNotifLoop();
-}
+static int handleError(struct mpd_connection*);
+const char *getLabel(const struct mpd_song*, enum mpd_tag_type);
+void printInfos(struct mpd_connection*);
+int mainMpdNotifLoop();
+
+#endif
