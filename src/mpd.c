@@ -70,20 +70,24 @@ int mainMpdNotifLoop() {
         return handleError(conn);
     }
 
-    while(mpd_connection_get_error(conn) == MPD_ERROR_SUCCESS) {
+    while(mpd_connection_get_error(conn) == MPD_ERROR_SUCCESS) { // main loop, run while there's no errors
+        
+        //NOTE : Clearing the mpd playlist cause a segfault
+
         enum mpd_idle idle = mpd_run_idle(conn);
 
         if(idle == 0 && mpd_connection_get_error(conn) != MPD_ERROR_SUCCESS)
             return handleError(conn);
 
         for(unsigned j = 0; ; ++j) {
-            enum mpd_idle i = 1 << j;
+            enum mpd_idle i = 1 << j; // note : I have no idea wtf is this line doing
             const char *name = mpd_idle_name(i);
 
             if(name == NULL) 
                 break;
 
             if(idle & i && strcmp(name, "player") == 0) {
+                // TODO : Create notify.c wich create a notification with the created string
                 printInfos(conn);
             }
         }
