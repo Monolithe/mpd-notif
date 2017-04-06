@@ -1,3 +1,13 @@
+/**********************************************************************************************
+Name ....... : mpd-notif/mpd.c
+Role ...... : Connect to the mpd server, wait for a "player" idle and print current's song name 
+
+Author .... : Monolithe
+Version ... : 0.3
+Licence ... : GPL
+
+***********************************************************************************************/
+
 #include "mpd.h"
 
 static int handleError(struct mpd_connection *c) {
