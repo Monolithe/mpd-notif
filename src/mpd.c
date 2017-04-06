@@ -60,7 +60,7 @@ int mainMpdNotifLoop() {
         return handleError(conn);
     }
 
-    while(1) {
+    while(mpd_connection_get_error(conn) == MPD_ERROR_SUCCESS) {
         enum mpd_idle idle = mpd_run_idle(conn);
 
         if(idle == 0 && mpd_connection_get_error(conn) != MPD_ERROR_SUCCESS)
