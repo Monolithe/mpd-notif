@@ -18,7 +18,6 @@
 #define TEMPIP "127.0.0.1"
 #define TEMPPORT 6600
 
-//static int handleError(struct mpd_connection*);
 const char *getLabel(const struct mpd_song*, enum mpd_tag_type);
 void printInfos(struct mpd_connection*);
 int mainMpdNotifLoop();
