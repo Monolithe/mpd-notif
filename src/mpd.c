@@ -3,14 +3,12 @@ Name ....... : mpd-notif/mpd.c
 Role ...... : Connect to the mpd server, wait for a "player" idle and print current's song name 
 
 Author .... : Monolithe
-Version ... : 0.3
+Version ... : 0.5
 Licence ... : GPL
 
 ***********************************************************************************************/
 
 #include "mpd.h"
-
-/* TODO : Use status in the main loop to avoid the segfault and useless notifications*/
 
 static int handleError(struct mpd_connection *c) {
     assert(mpd_connection_get_error(c) != MPD_ERROR_SUCCESS);
@@ -62,18 +60,23 @@ void printInfos(struct mpd_connection *c) {
     mpd_song_free(song);
 }
 
-int mainMpdNotifLoop() {
+int mainMpdNotifLoop(char *ip, int port) {
+    int success = 0;
+    printf("Connect to %s:%d...\n", ip, port);
     struct mpd_connection *conn;
 
-    conn = mpd_connection_new(TEMPIP, TEMPPORT, 0);
+    conn = mpd_connection_new(ip, port, 0);
 
     if(mpd_connection_get_error(conn) != MPD_ERROR_SUCCESS) {
         return handleError(conn);
     }
+    else {
+        success = 1;
+    }
+
+    printf("Success !\n");
 
     while(mpd_connection_get_error(conn) == MPD_ERROR_SUCCESS) { // main loop, run while there's no errors
-        
-        //NOTE : Clearing the mpd playlist cause a segfault
 
         enum mpd_idle idle = mpd_run_idle(conn);
 
@@ -88,8 +91,18 @@ int mainMpdNotifLoop() {
                 break;
 
             if(idle & i && strcmp(name, "player") == 0) {
+                mpd_send_status(conn);
+                struct mpd_status *status = mpd_recv_status(conn);
+                
+                if(mpd_status_get_error(status) != NULL) {
+                    printf("error : %s\n", mpd_status_get_error(status));
+                }
+
+                if(mpd_status_get_state(status) == MPD_STATE_PLAY || mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+                    printInfos(conn);
+                }
+                mpd_status_free(status);
                 // TODO : Create notify.c wich create a notification with the created string
-                printInfos(conn);
             }
         }
     }
@@ -98,7 +111,9 @@ int mainMpdNotifLoop() {
         return handleError(conn);
     }
 
-    mpd_connection_free(conn);
+    if(success) {
+        mpd_connection_free(conn);
+    }
 
     return 0;
 }

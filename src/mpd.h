@@ -20,6 +20,6 @@
 
 const char *getLabel(const struct mpd_song*, enum mpd_tag_type);
 void printInfos(struct mpd_connection*);
-int mainMpdNotifLoop();
+int mainMpdNotifLoop(char *, int);
 
 #endif
