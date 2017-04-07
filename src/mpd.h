@@ -15,8 +15,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define TEMPIP "127.0.0.1"
-#define TEMPPORT 6600
+#define DEFAULTIP "127.0.0.1"
+#define DEFAULTPORT 6600
 
 const char *getLabel(const struct mpd_song*, enum mpd_tag_type);
 void printInfos(struct mpd_connection*);
