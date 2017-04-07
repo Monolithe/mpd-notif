@@ -10,6 +10,8 @@ Licence ... : GPL
 
 #include "mpd.h"
 
+/* TODO : Use status in the main loop to avoid the segfault and useless notifications*/
+
 static int handleError(struct mpd_connection *c) {
     assert(mpd_connection_get_error(c) != MPD_ERROR_SUCCESS);
     fprintf(stderr, "%s\n", mpd_connection_get_error_message(c));
@@ -19,7 +21,6 @@ static int handleError(struct mpd_connection *c) {
 
 
 const char *getLabel(const struct mpd_song *song, enum mpd_tag_type type) {
-    unsigned i = 0;
     const char *value;
     value = mpd_song_get_tag(song, type, 0); 
     return value;
