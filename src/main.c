@@ -3,7 +3,7 @@ Name ...... : mpd-notif
 Role ...... : 
 
 Author .... : Monolithe
-Version ... : 0.5
+Version ... : 0.6 
 Licence ... : GPL
 
 Compilation : gcc -std=c99 -Wall -lmpdclient -o mpd-notif main.c mpd.c

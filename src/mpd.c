@@ -3,7 +3,7 @@ Name ....... : mpd-notif/mpd.c
 Role ...... : Connect to the mpd server, wait for a "player" idle and print current's song name 
 
 Author .... : Monolithe
-Version ... : 0.5
+Version ... : 0.6
 Licence ... : GPL
 
 ***********************************************************************************************/
@@ -20,7 +20,7 @@ static int handleError(struct mpd_connection *c) {
 
 const char *getLabel(const struct mpd_song *song, enum mpd_tag_type type) {
     const char *value;
-    value = mpd_song_get_tag(song, type, 0); 
+    value = mpd_song_get_tag(song, type, 0);
     return value;
 }
 
@@ -102,7 +102,7 @@ int mainMpdNotifLoop(char *ip, int port) {
                     printInfos(conn);
                 }
                 mpd_status_free(status);
-                // TODO : Create notify.c wich create a notification with the created string
+                // TODO : Create notify.c and replace this line
             }
         }
     }
