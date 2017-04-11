@@ -3,16 +3,17 @@ Name ...... : mpd-notif
 Role ...... : 
 
 Author .... : Monolithe
-Version ... : 0.6 
+Version ... : 0.9
 Licence ... : GPL
 
-Compilation : gcc -std=c99 -Wall -lmpdclient -o mpd-notif main.c mpd.c
+Compilation : gcc -std=c99 -Wall -lmpdclient `pkg-config --cflags --libs libnotify` -o mpd-notif main.c mpd.c notify.c
 ************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "mpd.h"
+
 
 void showHelp() {
     printf("mpd-notif is a notification client for mpd\nusage : mpd-notif [-c IP] [-p PORT]\nOptions :\n-c <IP> : set mpd server IP\n-p <PORT> : set port\n-h : show this help\n");

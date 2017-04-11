@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "notify.h"
+
 #define DEFAULTIP "127.0.0.1"
 #define DEFAULTPORT 6600
 

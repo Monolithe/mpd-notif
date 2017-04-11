@@ -3,7 +3,7 @@ Name ....... : mpd-notif/mpd.c
 Role ...... : Connect to the mpd server, wait for a "player" idle and print current's song name 
 
 Author .... : Monolithe
-Version ... : 0.6
+Version ... : 0.9
 Licence ... : GPL
 
 ***********************************************************************************************/
@@ -53,7 +53,7 @@ void printInfos(struct mpd_connection *c) {
     mpd_response_next(c);
 
     char *songInfo = getSongInfo(song);
-    printf("%s\n", songInfo);
+    printMpdNotif(songInfo);
     free(songInfo);
     
     mpd_response_finish(c);
@@ -102,7 +102,6 @@ int mainMpdNotifLoop(char *ip, int port) {
                     printInfos(conn);
                 }
                 mpd_status_free(status);
-                // TODO : Create notify.c and replace this line
             }
         }
     }
